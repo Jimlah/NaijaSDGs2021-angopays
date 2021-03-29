@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class RaveController extends Controller
 {
+
+
+
     public static function getAllBank()
     {
         $curl = curl_init();

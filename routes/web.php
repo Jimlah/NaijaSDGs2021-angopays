@@ -33,5 +33,6 @@ Route::get('user/', [IndexController::class, 'index'])->name("dashboard");
 
 Route::namespace('App\Http\Controllers\User')->group(function(){
     Route::resource('accounts', 'AccountsController', ['only' => ['index', 'create', 'store', 'edit', 'destroy']]);
+    Route::resource('transactions', 'TransactionsController', ['only' => ['index', 'create', 'store']]);
 });
 

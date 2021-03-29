@@ -24,7 +24,7 @@ class TransactionsController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.transactions.create');
     }
 
     /**
@@ -35,7 +35,7 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo "Hello";
     }
 
     /**
