@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 @section('body')
-    <div class="p-5 space-y-2 bg-white rounded-lg">
-        <table class="w-full table-auto overscroll-x-auto">
+    <div class="p-5 space-y-2 overflow-x-scroll bg-white rounded-lg md:overflow-hidden">
+        <table class="w-full tabl-auto">
             <thead>
                 <tr>
                     <td>Unique ID</td>
@@ -14,27 +14,27 @@
             </thead>
             <tbody>
                 @forelse ($accounts as $account)
-                <tr class="border">
-                    <td>{{ $account->unique_id }}</td>
-                    <td>{{ $account->account_number }}</td>
-                    <td>{{ $account->account_name }}</td>
-                    <td>{{ $account->bank_name }}</td>
-                    <td>
+                <tr class="border-t border-b ">
+                    <td class="py-2 mx-2">{{ $account->unique_id }}</td>
+                    <td class="py-2 mx-2 ">{{ $account->account_number }}</td>
+                    <td class="py-2 mx-2 ">{{ $account->account_name }}</td>
+                    <td class="py-2 mx-2 ">{{ $account->bank_name }}</td>
+                    <td class="py-2 mx-2 ">
                         @if ($account->verified)
-                        Not Verified
+                        Verified
                         @else
-                        <a href="" class="px-2 py-1 bg-purple-900">Verify</a>
+                        <a href="" class="px-2 py-1 bg-purple-900 rounded-md">Verify</a>
                         @endif
                     </td>
-                    <td>
-                        <x-action edit="{{ route('account.edit', ['id' => $account->id]) }}"
-                            delete="{{ route('account.destroy', ['id' => $account->id]) }}">
+                    <td class="py-2 mx-2 ">
+                        <x-action edit="{{ route('accounts.edit', [ $account->id]) }}"
+                            delete="{{ route('accounts.destroy', [$account->id]) }}">
                         </x-action>
                     </td>
                 </tr>
                 @empty
                 <tr class="border-t border-b">
-                    <td colspan="6" class="py-2 font-bold text-center text-gray-400">
+                    <td colspan="6" class="py-2 text-gray-400 text -center mx-2font-bold">
                         No Account Added Yet
                     </td>
                 </tr>
