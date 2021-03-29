@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\RaveController;
 use App\Models\Accounts;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,10 @@ class AccountsController extends Controller
      */
     public function create()
     {
-        return view('user.accounts.create');
+        $banks = RaveController::getAllBank();
+        return view('user.accounts.create', [
+            'banks' => $banks
+        ]);
     }
 
     /**
@@ -44,7 +48,12 @@ class AccountsController extends Controller
             'account_name' => 'required',
             'bank_name' => 'required',
             ]);
-        dd($request);
+
+        // dd($request->account_number);
+        dd(RaveController::validateAccount(
+            $request->account_number,
+            $request->bank_name
+        ));
 
         Accounts::create($request->except('_token'));
         session()->flash('success', 'You have successfully added a new account and genared a new ID');
