@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\RaveController;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
@@ -24,7 +25,8 @@ class TransactionsController extends Controller
      */
     public function create()
     {
-        return view('user.transactions.create');
+        RaveController::payment();
+        // return view('user.transactions.create');
     }
 
     /**
