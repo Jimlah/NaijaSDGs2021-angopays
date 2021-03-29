@@ -9,6 +9,19 @@ class Accounts extends Model
 {
     use HasFactory;
 
+   /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'unique_id',
+        'user_id',
+        'account_name',
+        'account_number',
+        'bank_name',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, "user_id");
