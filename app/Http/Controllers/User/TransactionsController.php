@@ -22,7 +22,11 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transactions::where('user_id', auth()->user()->id)
+                    ->get();
+        return view('user.transactions.index',[
+            'transactions' => $transactions
+        ]);
     }
 
     /**
@@ -57,7 +61,8 @@ class TransactionsController extends Controller
         $recipient_uid = $request->recipient_uid;
         $recipient_uid = explode('.', $recipient_uid);
 
-        $user = User::where('username', $recipient_uid[0])->get();
+        $user = User::where('username', $recipient_uid[0])->first();
+
         if (!$user) {
             session()->flash('Error', 'Invalid Account details');
             return redirect()->back();
@@ -70,17 +75,18 @@ class TransactionsController extends Controller
         // Withdrawing from Account
         $transaction = new Transactions();
         $transaction->trx_ref = $trx_ref;
-        $transaction->user_id = $request->user()->id();
+        $transaction->user_id = $request->user()->id;
         $transaction->account_id = $request->account_number;
         $transaction->amount = - ($request->amount + 25);
+        $transaction->charged_amount = - ($request->charged_amount);
         $transaction->recipient_uid = $request->recipient_uid;
         $transaction->otp = Str::random(4);
         $transaction->status = "processing";
         $transaction->save();
 
-        Twillo::message($request->user()->phone_number, "OTP ".$transaction->OTP);
+        Twillo::message($request->user()->phone_number, "OTP ". $transaction->otp);
 
-        return view(route('transactions.show', ['id'=> $transaction->id]));
+        return redirect(route('transactions.show', [$transaction->id]));
     }
 
     /**
@@ -91,15 +97,9 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        dd($id);
-
-        // $transaction = new Transactions();
-        // $transaction->trx_ref = $trx_ref;
-        // $transaction->user_id = $request->recipient_uid;
-        // $transaction->account_id = $request->account_number;
-        // $transaction->amount = $request->amount;
-        // $transaction->recipient_uid = $request->user()->id();
-        // $transaction->save();
+        return view('user.transactions.show', [
+            'id' => $id
+        ]);
     }
 
     /**
@@ -110,7 +110,7 @@ class TransactionsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -122,7 +122,39 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $transaction = Transactions::find($id);
+
+        $request->validate([
+            'otp' => 'required'
+        ]);
+
+        if($request->otp !== $transaction->otp){
+            session()->flash('error','Incorrect OTP');
+            return redirect()->back();
+        }
+
+        $recipient_uid = $transaction->recipient_uid;
+        $recipient_uid = explode('.', $recipient_uid);
+
+        $user = User::where('username', $recipient_uid[0])->first();
+
+        Transactions::create([
+            'trx_ref' => $transaction->trx_ref,
+            'user_id' => $user->id,
+            'account_id' => $transaction->account_id,
+            'charged_amount' => $transaction->amount,
+            'amount' => $user->id,
+            'recipient_uid' => $request->user()->id,
+            'status' => 'recieved',
+            'otp' => $request->otp
+
+        ]);
+
+        $transaction->status = 'success';
+        $transaction->save();
+
+        session()->flash('success', 'Transaction Succesful');
+        return redirect(route('transactions.index'));
     }
 
     /**

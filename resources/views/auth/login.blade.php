@@ -28,11 +28,11 @@
             @csrf
             <div class="flex flex-col w-full">
                 <label for="email">Email</label>
-                <input class="w-full px-2 py-1" type="email" name="email" id="email">
+                <input class="w-full px-2 py-1 text-black" type="email" name="email" id="email">
             </div>
             <div class="flex flex-col w-full">
                 <label for="password">Password</label>
-                <input class="w-full px-2 py-1" type="password" name="password" id="password">
+                <input class="w-full px-2 py-1 text-black" type="password" name="password" id="password">
             </div>
             <div class="flex flex-col w-full ">
                 <button class="w-full py-1 py-2 font-bold bg-purple-900" type="submit">Login</button>

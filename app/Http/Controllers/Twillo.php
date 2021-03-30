@@ -10,7 +10,7 @@ class Twillo extends Controller
     public static function message($number, $message)
     {
         // Your Account SID and Auth Token from twilio.com/console
-        $client = new Client(env("TWILLO_SID"), env("TWILLO_TOKEN "));
+        $client = new Client(env("TWILLO_SID"), env("TWILLO_TOKEN"));
 
         // Use the client to do fun stuff like send text messages!
         $client->messages->create(
