@@ -6,6 +6,7 @@ use App\Models\Accounts;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Paystack;
 use App\Http\Controllers\RaveController;
 
 class AccountsController extends Controller
@@ -52,12 +53,12 @@ class AccountsController extends Controller
             'bank_name' => 'required',
             ]);
 
-        $validateAccount = RaveController::validateAccount(
+        $validateAccount = Paystack::verifyAccount(
             $request->account_number,
             $request->bank_name
         );
 
-        if ($validateAccount->status != "success") {
+        if (!$validateAccount->status) {
             session()->flash('error', 'Unable validate Account');
             return redirect()->back();
         }
@@ -88,7 +89,7 @@ class AccountsController extends Controller
         ]);
 
         session()->flash('success', 'You have successfully added a new account and genarated a new ID');
-        return view('user.accounts.index');
+        return redirect(route('accounts.index'));
     }
 
     /**

@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="flex flex-col w-full ">
-                <button class="w-full py-1 py-2 font-bold bg-purple-900" type="submit">Login</button>
+                <button class="w-full py-1 py-2 font-bold bg-purple-900" type="submit">Add Account</button>
             </div>
         </form>
     </div>

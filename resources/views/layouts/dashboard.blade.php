@@ -35,7 +35,7 @@
             <div class="self-end w-full h-screen px-5 py-5 overflow-scroll md:ml-48 lg:ml-56 md:w-10/12">
                 <div class="flex items-center justify-end w-full mb-5 space-x-2">
                     {{-- <img src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png" alt="" class="w-8 h-8 rounded-full"> --}}
-                    <span class="font-semibold">{{auth()->user()->name}}</span>
+                    <span class="font-semibold">{{auth()->user()->username}}</span>
                 </div>
                 @include('components.flash-message')
                 @yield('body')

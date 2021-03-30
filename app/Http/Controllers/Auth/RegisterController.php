@@ -15,8 +15,11 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        if(preg_match('/[^a-zA-Z0-9_]/', '', $request->username) !== false){
-            session()->flash('warning', "Does not accept special characters except '_'");
+        preg_match('/[^a-zA-Z0-9_]/', $request->username, $matches);
+
+        if($matches !== []){
+            session()->flash('warning', "Usernames does not accept special characters except '_'");
+            return redirect()->back();
         }
 
         $request->validate([
@@ -33,6 +36,7 @@ class RegisterController extends Controller
             'email' => strtolower($request->email),
             'password' => bcrypt($request->password),
             'phone_number' => $request->phone_number,
+            'username' => $request->username
         ]);
 
         session()->flash('success', 'Your account is created');

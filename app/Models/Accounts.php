@@ -29,7 +29,7 @@ class Accounts extends Model
 
     public function hideAccount()
     {
-        $hideAcct =  preg_replace('\d(?=\d{4})', '#', $this->account_number);
+        $hideAcct =  str_repeat('*', strlen($this->account_number) - 4) . substr($this->account_number, -4);;
         return $hideAcct;
     }
 }

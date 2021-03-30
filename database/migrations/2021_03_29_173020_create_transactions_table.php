@@ -15,6 +15,14 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->integer('trx_ref');
+            $table->integer('user_id');
+            $table->integer('account_id');
+            $table->string('recipient_uid');
+            $table->float('amount');
+            $table->string('charged_amount');
+            $table->string('status');
+            $table->string('otp');
             $table->timestamps();
         });
     }
